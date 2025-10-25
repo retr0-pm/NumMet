@@ -19,7 +19,7 @@ menu = st.sidebar.radio("***",
 
 # -------------------- ДЛЯ ЧЕГО НУЖНА 3D --------------------
 if menu == "Для чего нужна 3D графика в программировании":
-    st.markdown("""
+    st.markdown(r"""
     #### 🎯 Для чего нужна 3D графика в программировании
 
     * Трёхмерная визуализация используется, когда данные зависят **от двух независимых переменных**, а результат выражен как третья — \( z = f(x, y) \).
@@ -31,27 +31,29 @@ if menu == "Для чего нужна 3D графика в программир
     * В `Matplotlib` трёхмерные графики строятся через модуль `mpl_toolkits.mplot3d`.
     """)
 
-    # Небольшая демонстрация
+    # Демонстрация
     x = np.linspace(-3, 3, 50)
     y = np.linspace(-3, 3, 50)
     X, Y = np.meshgrid(x, y)
     Z = np.sin(np.sqrt(X**2 + Y**2))
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 4))
     ax = fig.add_subplot(111, projection='3d')
     surf = ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
-    ax.set_title("Пример трёхмерной поверхности z = sin(√(x² + y²))")
-    plt.colorbar(surf, ax=ax, shrink=0.6, pad=0.1)
-    st.pyplot(fig)
+    ax.set_title(r"$z = \sin(\sqrt{x^2 + y^2})$", pad=18)
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+    ax.set_zlabel(r"$z$")
+    plt.colorbar(surf, ax=ax, shrink=0.6, pad=0.1, label=r"$z$")
+    st.pyplot(fig, use_container_width=False)
 
 # -------------------- АКТИВАЦИЯ 3D --------------------
 if menu == "Активация 3D":
-    st.markdown("""
+    st.markdown(r"""
     #### 🧩 Активация 3D-графики
 
-    * Для работы с 3D-графиками в Matplotlib необходимо создать ось с параметром `projection='3d'`.
-    * Это активирует модуль **mpl_toolkits.mplot3d**, который добавляет методы для построения 3D объектов.
-    * Пример:
+    * Для работы с 3D-графиками необходимо создать ось с параметром `projection='3d'`.
+    * Это активирует модуль **mpl_toolkits.mplot3d**, который добавляет методы для построения 3D объектов:
     ```python
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -59,20 +61,14 @@ if menu == "Активация 3D":
     * После этого можно использовать методы `plot_surface`, `scatter`, `plot_wireframe` и др.
     """)
 
-    st.code("""
-    from mpl_toolkits.mplot3d import Axes3D
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    """, language="python")
-
     st.info("Ось с проекцией '3d' создаёт пространство для трёх координатных осей X, Y, Z.")
 
 # -------------------- ПОВЕРХНОСТИ --------------------
 if menu == "Поверхности (3D surfaces)":
-    st.markdown("""
+    st.markdown(r"""
     #### 🏔 Поверхности (3D Surfaces)
 
-    * Используются для отображения **непрерывных функций** двух переменных: *z = f(x, y)*.
+    * Используются для отображения **непрерывных функций** двух переменных: \( z = f(x, y) \).
     * Цветовая карта (colormap) помогает визуализировать изменения по высоте.
     * Основная функция — `ax.plot_surface(X, Y, Z, cmap='...')`.
     """)
@@ -82,16 +78,19 @@ if menu == "Поверхности (3D surfaces)":
     X, Y = np.meshgrid(x, y)
     Z = np.cos(np.sqrt(X**2 + Y**2))
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 4))
     ax = fig.add_subplot(111, projection='3d')
     surf = ax.plot_surface(X, Y, Z, cmap='coolwarm', edgecolor='none')
-    ax.set_title("Поверхность z = cos(√(x² + y²))")
-    plt.colorbar(surf, ax=ax, shrink=0.6, pad=0.1)
-    st.pyplot(fig)
+    ax.set_title(r"$z = \cos(\sqrt{x^2 + y^2})$", pad=18)
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+    ax.set_zlabel(r"$z$")
+    plt.colorbar(surf, ax=ax, shrink=0.6, pad=0.1, label=r"$z$")
+    st.pyplot(fig, use_container_width=False)
 
 # -------------------- СЕТКИ --------------------
 if menu == "Сетки":
-    st.markdown("""
+    st.markdown(r"""
     #### 🕸 Сетки (Wireframes)
 
     * Сетки — облегчённый вариант поверхностей, показывающий только **каркас** графика.
@@ -104,15 +103,18 @@ if menu == "Сетки":
     X, Y = np.meshgrid(x, y)
     Z = np.sin(np.sqrt(X**2 + Y**2))
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 4))
     ax = fig.add_subplot(111, projection='3d')
     ax.plot_wireframe(X, Y, Z, color='navy', linewidth=0.7)
-    ax.set_title("Каркас функции z = sin(√(x² + y²))")
-    st.pyplot(fig)
+    ax.set_title(r"$z = \sin(\sqrt{x^2 + y^2})$", pad=18)
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+    ax.set_zlabel(r"$z$")
+    st.pyplot(fig, use_container_width=False)
 
 # -------------------- ТОЧЕЧНЫЕ 3D --------------------
 if menu == "Точечные 3D графики":
-    st.markdown("""
+    st.markdown(r"""
     #### 💠 Точечные 3D графики
 
     * Отображают набор точек в трёхмерном пространстве.
@@ -125,20 +127,23 @@ if menu == "Точечные 3D графики":
     y = np.random.randn(200)
     z = np.random.randn(200)
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 4))
     ax = fig.add_subplot(111, projection='3d')
     sc = ax.scatter(x, y, z, c=z, cmap='plasma', alpha=0.8)
-    plt.colorbar(sc, ax=ax, shrink=0.6, pad=0.1, label='z')
-    ax.set_title("3D точечный график (scatter3D)")
-    st.pyplot(fig)
+    plt.colorbar(sc, ax=ax, shrink=0.6, pad=0.1, label=r"$z$")
+    ax.set_title(r"3D-точечный график: $(x, y, z)$", pad=18)
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+    ax.set_zlabel(r"$z$")
+    st.pyplot(fig, use_container_width=False)
 
 # -------------------- ЛИНЕЙНЫЕ 3D --------------------
 if menu == "Линейные 3D графики":
-    st.markdown("""
+    st.markdown(r"""
     #### 📈 Линейные 3D графики
 
     * Используются для отображения пространственных траекторий.
-    * Каждая линия определяется последовательностью точек (x, y, z).
+    * Каждая линия определяется последовательностью точек \((x, y, z)\).
     * Функция: `ax.plot3D(x, y, z, ...)`.
     """)
 
@@ -148,20 +153,23 @@ if menu == "Линейные 3D графики":
     x = r * np.sin(theta)
     y = r * np.cos(theta)
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 4))
     ax = fig.add_subplot(111, projection='3d')
     ax.plot3D(x, y, z, color='darkorange', linewidth=2)
-    ax.set_title("Пространственная кривая")
-    st.pyplot(fig)
+    ax.set_title(r"Пространственная кривая: $r(z) = z^2 + 1$", pad=18)
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+    ax.set_zlabel(r"$z$")
+    st.pyplot(fig, use_container_width=False)
 
 # -------------------- ОФОРМЛЕНИЕ --------------------
 if menu == "Оформление 3D сцен":
-    st.markdown("""
+    st.markdown(r"""
     #### 🎨 Оформление 3D сцен
 
-    * 3D графики можно настраивать аналогично 2D:
-        - Изменять углы обзора (`view_init`).
-        - Устанавливать подписи и сетку.
+    * 3D-графики можно настраивать аналогично 2D:
+        - Изменять углы обзора (`view_init`);
+        - Устанавливать подписи и сетку;
         - Изменять масштаб и пропорции осей.
     * Углы обзора задаются параметрами `elev` (высота) и `azim` (азимут).
     """)
@@ -171,12 +179,12 @@ if menu == "Оформление 3D сцен":
     X, Y = np.meshgrid(x, y)
     Z = np.sin(X) * np.cos(Y)
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(5, 4))
     ax = fig.add_subplot(111, projection='3d')
     ax.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
     ax.view_init(elev=40, azim=45)
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_zlabel("Z")
-    ax.set_title("Настроенная 3D сцена")
-    st.pyplot(fig)
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+    ax.set_zlabel(r"$z$")
+    ax.set_title(r"Настроенная сцена: $z = \sin(x)\cos(y)$", pad=18)
+    st.pyplot(fig, use_container_width=False)

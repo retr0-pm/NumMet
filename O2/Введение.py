@@ -37,18 +37,3 @@ st.markdown("""
 
 st.divider()
 
-# Мини-график-пример
-st.markdown("#### Пример визуализации:")
-
-x = np.linspace(0, 10, 300)
-y = np.sin(x) * np.exp(-x / 5)
-
-fig, ax = plt.subplots()
-ax.plot(x, y, color="crimson", linewidth=2)
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.set_title("Демонстрация возможностей Matplotlib")
-ax.grid(True, linestyle="--", alpha=0.5)
-st.pyplot(fig)
-
-st.caption("Matplotlib объединяет простоту и мощь: от базовых графиков до сложных визуальных композиций.")

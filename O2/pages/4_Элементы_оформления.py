@@ -32,140 +32,164 @@ if menu == "Что такое элементы оформления в прог�
     Эти элементы делают визуализацию **понятной и профессиональной**,  
     помогая выделить ключевые моменты и улучшить читаемость графика.
     """)
-
     st.info("Matplotlib предоставляет множество инструментов для гибкой настройки внешнего вида визуализаций.")
 
-# -------------------- ОСИ --------------------
+
+# -------------------- НАСТРОЙКА ОСЕЙ --------------------
 if menu == "Настройка осей":
-    st.markdown("""
-    #### 📏 Настройка осей
+    st.markdown("#### 📏 Настройка осей — интерактивная демонстрация")
 
-    В Matplotlib можно легко управлять:
-    * диапазоном значений осей (`plt.xlim`, `plt.ylim`);
-    * подписями осей (`plt.xlabel`, `plt.ylabel`);
-    * названием графика (`plt.title`);
-    * делениями и метками (`plt.xticks`, `plt.yticks`).
-    """)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        func = st.selectbox("Функция", ["sin(x)", "cos(x)", "exp(-x²)"])
+        xmin, xmax = st.slider("Диапазон X", -10, 10, (-5, 5))
+        ymin, ymax = st.slider("Диапазон Y", -5, 5, (-2, 2))
+        show_labels = st.checkbox("Показывать подписи осей", value=True)
 
-    x = np.linspace(-5, 5, 200)
-    y = np.sin(x)
+    with col2:
+        x = np.linspace(xmin, xmax, 400)
+        y = np.sin(x) if func == "sin(x)" else np.cos(x) if func == "cos(x)" else np.exp(-x**2)
+        fig, ax = plt.subplots(figsize=(5, 3))
+        ax.plot(x, y, color="royalblue", linewidth=2)
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
+        if show_labels:
+            ax.set_xlabel("Ось X")
+            ax.set_ylabel("Ось Y")
+        ax.set_title(f"График функции {func}")
+        ax.grid(True, linestyle="--", alpha=0.4)
+        st.pyplot(fig)
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y, color="royalblue", linewidth=2)
-    ax.set_xlim(-6, 6)
-    ax.set_ylim(-1.5, 1.5)
-    ax.set_xlabel("Ось X")
-    ax.set_ylabel("Ось Y")
-    ax.set_title("Пример настройки осей")
-    st.pyplot(fig)
-
-    st.caption("Настройка осей помогает сосредоточить внимание на нужной части данных.")
+    st.code("""
+ax.set_xlim(xmin, xmax)
+ax.set_ylim(ymin, ymax)
+ax.grid(True, linestyle="--", alpha=0.4)
+    """, language="python")
 
 # -------------------- ЛЕГЕНДА --------------------
 if menu == "Легенда с параметрами расположения":
-    st.markdown("""
-    #### 🗂️ Легенда с параметрами расположения
+    st.markdown("#### 🗂️ Легенда — настрой расположение и рамку")
 
-    **Легенда** объясняет, что означает каждая линия, точка или столбец.  
-    Её можно разместить в разных местах с помощью параметра `loc`:
-    * `'upper left'`, `'lower right'`, `'center'` и др.
-    """)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        loc = st.selectbox("Положение легенды",
+                           ["upper left", "upper right", "lower left", "lower right", "center"])
+        frame = st.checkbox("Показывать рамку", value=True)
 
-    x = np.linspace(0, 10, 100)
-    fig, ax = plt.subplots()
-    ax.plot(x, np.sin(x), label='sin(x)', color='tomato')
-    ax.plot(x, np.cos(x), label='cos(x)', color='royalblue')
-    ax.legend(loc='upper right', fontsize=10, frameon=True)
-    ax.set_title("Легенда в правом верхнем углу")
-    st.pyplot(fig)
+    with col2:
+        x = np.linspace(0, 10, 100)
+        fig, ax = plt.subplots(figsize=(5, 3))
+        ax.plot(x, np.sin(x), label='sin(x)', color='tomato')
+        ax.plot(x, np.cos(x), label='cos(x)', color='royalblue')
+        ax.legend(loc=loc, frameon=frame)
+        ax.grid(True, linestyle="--", alpha=0.4)
+        st.pyplot(fig)
 
-    st.caption("Легенда делает график понятным, особенно при множестве линий.")
+    st.code("""
+ax.legend(loc=loc, frameon=frame)
+    """, language="python")
 
 # -------------------- СЕТКА --------------------
 if menu == "Сетка":
-    st.markdown("""
-    #### 🔢 Сетка
+    st.markdown("#### 🔢 Настройка сетки")
 
-    **Сетка** облегчает восприятие данных, помогая соотнести значения по осям.  
-    Её можно включить функцией `plt.grid(True)` и настроить стиль линий.
-    """)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        show_grid = st.checkbox("Показать сетку", value=True)
+        linestyle = st.selectbox("Тип линии", ["--", "-.", ":", "-"])
+        alpha = st.slider("Прозрачность", 0.1, 1.0, 0.7, 0.1)
 
-    x = np.linspace(0, 2*np.pi, 200)
-    y = np.sin(x)
+    with col2:
+        x = np.linspace(0, 2*np.pi, 200)
+        y = np.sin(x)
+        fig, ax = plt.subplots(figsize=(5, 3))
+        ax.plot(x, y, color='mediumseagreen', linewidth=2)
+        if show_grid:
+            ax.grid(True, linestyle=linestyle, alpha=alpha)
+        ax.set_title("Пример настройки сетки")
+        st.pyplot(fig)
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y, color='mediumseagreen', linewidth=2)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.set_title("График с включённой сеткой")
-    st.pyplot(fig)
-
-    st.caption("Сетка добавляет визуальные ориентиры и делает график аккуратным.")
+    st.code("""
+ax.grid(True, linestyle=linestyle, alpha=alpha)
+    """, language="python")
 
 # -------------------- ТЕКСТ И АННОТАЦИИ --------------------
 if menu == "Текст и аннотации":
-    st.markdown("""
-    #### 📝 Текст и аннотации
+    st.markdown("#### 📝 Добавление аннотаций")
 
-    Аннотации позволяют добавлять пояснения к ключевым точкам графика.  
-    Используется метод `plt.text()` или `plt.annotate()`.
-    """)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        text = st.text_input("Текст аннотации", "Максимум")
+        x_coord = st.slider("Координата X", 0.0, 10.0, 1.5, 0.1)
+        y_coord = np.sin(x_coord)
+        st.write(f"sin({x_coord:.1f}) = {y_coord:.2f}")
 
-    x = np.linspace(0, 10, 100)
-    y = np.sin(x)
+    with col2:
+        x = np.linspace(0, 10, 100)
+        y = np.sin(x)
+        fig, ax = plt.subplots(figsize=(5, 3))
+        ax.plot(x, y, color='purple', linewidth=2)
+        ax.annotate(text, xy=(x_coord, y_coord),
+                    xytext=(x_coord+1, y_coord+0.3),
+                    arrowprops=dict(facecolor='black', shrink=0.05))
+        ax.grid(True, linestyle="--", alpha=0.4)
+        st.pyplot(fig)
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y, color='purple', linewidth=2)
-    ax.annotate('Максимум', xy=(np.pi/2, 1), xytext=(2, 1.3),
-                arrowprops=dict(facecolor='black', shrink=0.05))
-    ax.annotate('Минимум', xy=(3*np.pi/2, -1), xytext=(5, -1.3),
-                arrowprops=dict(facecolor='black', shrink=0.05))
-    ax.set_title("Пример аннотаций")
-    st.pyplot(fig)
-
-    st.caption("Аннотации помогают подчеркнуть важные особенности данных.")
+    st.code("""
+ax.annotate(text, xy=(x_coord, y_coord),
+            xytext=(x_coord+1, y_coord+0.3),
+            arrowprops=dict(facecolor='black'))
+    """, language="python")
 
 # -------------------- МАТЕМАТИЧЕСКИЕ ФОРМУЛЫ --------------------
 if menu == "Математические формулы":
-    st.markdown("""
-    #### ∑ Математические формулы
+    st.markdown("#### ∑ Математические формулы (LaTeX)")
 
-    Matplotlib поддерживает отображение формул в **LaTeX-синтаксисе**.  
-    Это позволяет красиво оформлять математические выражения на графике.
-    """)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        formula = st.selectbox("Выражение", [
+            r"$y = x^2$",
+            r"$y = \sin(x)$",
+            r"$y = e^{-x^2}$",
+            r"$y = \sqrt{|x|}$"
+        ])
 
-    x = np.linspace(-2, 2, 100)
-    y = x**2
+    with col2:
+        x = np.linspace(-3, 3, 200)
+        y = {
+            r"$y = x^2$": x**2,
+            r"$y = \sin(x)$": np.sin(x),
+            r"$y = e^{-x^2}$": np.exp(-x**2),
+            r"$y = \sqrt{|x|}$": np.sqrt(np.abs(x))
+        }[formula]
+        fig, ax = plt.subplots(figsize=(5, 3))
+        ax.plot(x, y, color='darkorange', linewidth=2)
+        ax.text(0, max(y)/1.5, formula, fontsize=16)
+        ax.grid(True, linestyle="--", alpha=0.4)
+        st.pyplot(fig)
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y, color='darkorange', linewidth=2)
-    ax.text(0.2, 3, r"$y = x^2$", fontsize=14, color='black')
-    ax.set_title("Использование математических формул")
-    st.pyplot(fig)
-
-    st.caption("Любое математическое выражение можно встроить с помощью синтаксиса LaTeX.")
+    st.code("""
+ax.text(0, max(y)/1.5, formula, fontsize=16)
+    """, language="python")
 
 # -------------------- СТИЛИ ОФОРМЛЕНИЯ --------------------
 if menu == "Стили оформления":
-    st.markdown("""
-    #### 🎨 Стили оформления
+    st.markdown("#### 🎨 Стили оформления — попробуй разные темы")
 
-    В Matplotlib можно выбрать готовые стили визуализации:  
-    ```python
-    plt.style.use('ggplot')
-    plt.style.use('seaborn-v0_8')
-    plt.style.use('dark_background')
-    ```
-    """)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        style = st.selectbox("Выберите стиль", plt.style.available)
 
-    x = np.linspace(0, 2*np.pi, 100)
-    y = np.sin(x)
-
-    styles = ['default', 'ggplot', 'seaborn-v0_8']
-    for s in styles:
-        plt.style.use(s)
-        fig, ax = plt.subplots()
+    with col2:
+        plt.style.use(style)
+        x = np.linspace(0, 2*np.pi, 200)
+        y = np.sin(x)
+        fig, ax = plt.subplots(figsize=(5, 3))
         ax.plot(x, y, linewidth=2)
-        ax.set_title(f"Стиль оформления: {s}")
+        ax.set_title(f"Стиль оформления: {style}")
         st.pyplot(fig)
 
-    st.caption("Стили помогают быстро адаптировать внешний вид графика под задачу или бренд.")
+    st.code("""
+plt.style.use(style)
+ax.plot(x, y)
+    """, language="python")

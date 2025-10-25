@@ -4,6 +4,11 @@ import numpy as np
 
 st.set_page_config(page_title="Одномерные графики", layout="wide")
 
+# Функция для компактного отображения графиков
+def show_plot(fig):
+    fig.tight_layout(pad=1)
+    st.pyplot(fig, use_container_width=False, bbox_inches="tight")
+
 menu = st.sidebar.radio("***",
     (
         "Общее определение принадлежности графика к одномерным",
@@ -55,15 +60,15 @@ if menu == "Линейные графики":
     y1 = np.sin(x)
     y2 = np.cos(x)
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(4, 2.5))
     ax.plot(x, y1, label="sin(x)", color="royalblue", linewidth=2)
     ax.plot(x, y2, label="cos(x)", color="tomato", linestyle="--", linewidth=2)
     ax.set_xlabel("x")
     ax.set_ylabel("f(x)")
-    ax.set_title("Линейные графики функций sin(x) и cos(x)")
-    ax.legend()
+    ax.set_title("Линейные графики функций sin(x) и cos(x)", fontsize=10)
+    ax.legend(fontsize=8)
     ax.grid(True, linestyle="--", alpha=0.6)
-    st.pyplot(fig)
+    show_plot(fig)
 
     st.caption("Линейные графики подходят для отображения трендов и временных рядов.")
 
@@ -80,13 +85,13 @@ if menu == "Точечные диаграммы":
     x = np.random.rand(50)
     y = 2 * x + np.random.randn(50) * 0.2
 
-    fig, ax = plt.subplots()
-    ax.scatter(x, y, color="mediumseagreen", edgecolor="black", s=70)
+    fig, ax = plt.subplots(figsize=(4, 2.5))
+    ax.scatter(x, y, color="mediumseagreen", edgecolor="black", s=50)
     ax.set_xlabel("x")
     ax.set_ylabel("y")
-    ax.set_title("Пример точечной диаграммы")
+    ax.set_title("Пример точечной диаграммы", fontsize=10)
     ax.grid(True, linestyle="--", alpha=0.6)
-    st.pyplot(fig)
+    show_plot(fig)
 
     st.caption("Используется для выявления закономерностей, трендов и выбросов в данных.")
 
@@ -102,12 +107,12 @@ if menu == "Столбчатые диаграммы":
     categories = ['A', 'B', 'C', 'D', 'E']
     values = [23, 17, 35, 29, 12]
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(4, 2.5))
     ax.bar(categories, values, color='cornflowerblue', edgecolor='black')
-    ax.set_title("Пример столбчатой диаграммы")
+    ax.set_title("Пример столбчатой диаграммы", fontsize=10)
     ax.set_xlabel("Категории")
     ax.set_ylabel("Значение")
-    st.pyplot(fig)
+    show_plot(fig)
 
     st.caption("Столбчатые графики полезны для сравнения категорий и групп данных.")
 
@@ -121,12 +126,12 @@ if menu == "Гистограммы распределений":
     """)
 
     data = np.random.randn(500)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(4, 2.5))
     ax.hist(data, bins=20, color="orchid", edgecolor="black", alpha=0.8)
-    ax.set_title("Пример гистограммы распределения")
+    ax.set_title("Пример гистограммы распределения", fontsize=10)
     ax.set_xlabel("Значение")
     ax.set_ylabel("Частота")
-    st.pyplot(fig)
+    show_plot(fig)
 
     st.caption("Гистограммы позволяют выявлять форму распределения и наличие выбросов.")
 
@@ -142,12 +147,12 @@ if menu == "Ступенчатые графики":
     x = np.arange(10)
     y = np.random.randint(0, 5, size=10)
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(4, 2.5))
     ax.step(x, y, where="mid", color="darkorange", linewidth=2)
     ax.set_xlabel("Номер измерения")
     ax.set_ylabel("Значение")
-    ax.set_title("Пример ступенчатого графика")
+    ax.set_title("Пример ступенчатого графика", fontsize=10)
     ax.grid(True, linestyle="--", alpha=0.6)
-    st.pyplot(fig)
+    show_plot(fig)
 
     st.caption("Ступенчатые графики удобны для отображения дискретных изменений и пороговых состояний.")
