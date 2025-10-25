@@ -36,11 +36,13 @@ if menu == "Общая характеристика ПО":
 
     x = np.linspace(0, 2 * np.pi, 200)
     y = np.sin(x)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(5, 3))  # фиксированный размер
     ax.plot(x, y, color='royalblue', linewidth=2)
-    ax.set_title("Пример: y = sin(x)")
+    ax.set_title("Пример: $y = \sin(x)$", pad=12)
+    ax.set_xlabel("$x$")
+    ax.set_ylabel("$y$")
     ax.grid(True, linestyle='--', alpha=0.6)
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=False)
 
     st.caption("Matplotlib превращает численные данные в наглядные изображения.")
 
